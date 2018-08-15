@@ -1,6 +1,13 @@
-FROM node:alpine
-COPY ./Swagger-deployer /home/swagger/
-WORKDIR /home/swagger/api-server
-RUN npm i npm@latest -g
-EXPOSE 8080
-CMD [ "npm", "start" ]
+FROM node:8.2.1-alpine
+
+WORKDIR /code
+
+RUN npm install -g nodemon@1.11.0
+
+COPY package.json /code/package.json
+RUN npm install && npm ls
+RUN mv /code/node_modules /node_modules
+
+COPY . /code
+
+CMD ["npm", "start"]
